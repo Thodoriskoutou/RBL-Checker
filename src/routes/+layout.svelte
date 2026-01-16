@@ -64,7 +64,7 @@
 		Home={[{url:'/',icon:'mdi:chart-bar',title:'Dashboard'}]}
 		Services={[{url:'/domains',icon:'meteor-icons:globe',title:'Domains'},{url:'/handlers',icon:'mynaui:zap',title:'Handlers'},{url:'/forms',icon:'material-symbols:format-image-left-rounded',title:'Forms'}]}
 		cta_footer={true}
-		help={[{url:'/help',icon:'material-symbols:help-outline',title:'Help'}]}
+		help={[{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'material-symbols:help-outline',title:'Outlook SNDS'}]}
 			/>
 	
 
