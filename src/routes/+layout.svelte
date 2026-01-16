@@ -31,7 +31,7 @@
 </script>
 
 <svelte:head>
-	<title>Email4Dev</title>
+	<title>RBL Checker</title>
 </svelte:head>
 
 <div class="bg-base-200 flex min-h-screen flex-col">
