@@ -1,22 +1,17 @@
 export const menu = [
     {
-        label: "Dashboard",
-        link: "/dashboard",
+        label: "Ips",
+        link: "/ips",
         icon: "material-symbols:domain"
     },
     {
-        label: "Domains",
-        link: "/domains",
+        label: "Rbls",
+        link: "/rbls",
         icon: "material-symbols:gate-outline-sharp"
     },
     {
-        label: "Handlers",
-        link: "/handlers",
+        label: "History",
+        link: "/history",
         icon: "material-symbols:call-received-rounded"
-    },
-    {
-        label: "Forms",
-        link: "/forms",
-        icon: "material-symbols:format-image-right-rounded"
     }
 ]
