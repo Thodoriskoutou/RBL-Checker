@@ -10,7 +10,7 @@ type Sidebar={
     name_company:string,
     logo_company:string,    
     name_user?:string,
-    Home:SideItems[],
+    Home?:SideItems[],
     Services:SideItems[],
     Domains?:SideItems[],
     Footer?:SideItems[],
@@ -41,14 +41,7 @@ let {name_company,logo_company,name_user,Home,Services,Domains,Footer,service_ti
 					<span class="icon-[tabler--x] size-4.5"></span>
 				</button>
 				<div class="aside-header flex flex-col gap-2 p-4 justify-center items-center border-b border-base-content/20">
-					<div class="flex items-center gap-3">
-						<img
-							src={logo_company}
-							alt="Email4Dev Logo"
-							title="Email4Dev"
-							class="h-17"
-						/>
-					</div>
+				
 					<div class="flex flex-col overflow-hidden quote">
 						<span class="truncate font-semibold text-base-content text-center text-xl">{name_company}</span>
 						<span class="truncate text-xs text-base-content/70">{name_user}</span>
