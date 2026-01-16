@@ -52,22 +52,19 @@
 					</div>
 				<div class="navbar-end items-center gap-6">
 					<ToggleNightMode icon_moon={'tabler:moon'}  icon_sun={'tabler:sun'}  active={isDark}  Event={() => (isDark = !isDark)}/>
-					<Avatar name={'AB'} textSize={'md'} textColor={'neutral'} avatarSize={10} avatarColor={'primary'}/> 
 					</div>
 			</nav>
 		</div>
 	</div> 
 	<!-- ---------- END HEADER ---------- -->
 	<Sidebar 
-		name_company='Email4Dev'
-		logo_company={isDark ? logoDark : logoLight} 
-		Home={[{url:'/',icon:'mdi:chart-bar',title:'Dashboard'}]}
-		Services={[{url:'/domains',icon:'meteor-icons:globe',title:'Domains'},{url:'/handlers',icon:'mynaui:zap',title:'Handlers'},{url:'/forms',icon:'material-symbols:format-image-left-rounded',title:'Forms'}]}
-		cta_footer={true}
+		name_company='RBL Checker'
+		logo_company="RBL Checker"
+		cta_footer={false}
 		help={[{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'material-symbols:help-outline',title:'Outlook SNDS'}]}
-			/>
-	
-
+		Services={[{url:'/history',icon:'material-symbols:book-ribbon-outline-rounded',title:'History'},{url:'/ips',icon:'mdi:lan',title:'Ips'},{url:'/rbls',icon:'ic:round-list-alt',title:'Rbls'}]}
+			
+		/>
 	<!-- ---------- MAIN CONTENT ---------- -->
 	<main class="lg:ps-75 min-w-0 flex-1" >
 		<div class="mx-auto w-full max-w-8xl  p-3 sm:p-5 lg:p-7">
