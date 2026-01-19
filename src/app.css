@@ -8,20 +8,22 @@ body {
 @import "tailwindcss";
 
 @plugin "flyonui" {
-    themes: corporate --default, black --prefersdark;
+    themes: corporate --default, vscode --prefersdark;
 }
 
 @plugin "flyonui/theme" {
     name: "corporate";
     default: true;
-    --color-primary: #09ace9;
+    --color-primary:#25A7ED;
+    --color-accent: #25A7ED;
+
 }
 
 @plugin "flyonui/theme" {
-    name: "black";
+    name: "vscode";
     default: true;
-    --color-primary: #0dcaf0;
-    --color-accent: #4b3f8a;
+    --color-primary:#25A7ED;
+    --color-accent: #25A7ED;
 }
 
 @import "flyonui/variants.css";
