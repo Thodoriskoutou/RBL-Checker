@@ -14,14 +14,10 @@
 </script>
 
 <div class="flex justify-between items-center">
-	<h1 class="text-base-content text-4xl m-4 ml-0 flex">rbls</h1>
+	<h1 class="text-base-content text-4xl m-4 ml-0 flex">Rbls</h1>
 	<a href={data.activeMenu!.link + '/new'} title="Add a new rbls" class="btn btn-primary btn-circle"
 		>+</a
 	>
-    <h1 class="text-base-content text-4xl m-4 ml-0 flex">
-        Rbls
-    </h1>
-    <a href={data.activeMenu!.link + "/new"} title="Add a new rbls" class="btn btn-primary btn-circle">+</a>
 </div>
 <Datatable
 	Rows={data.records}
