@@ -61,7 +61,8 @@
 		name_company='RBL Checker'
 		logo_company="RBL Checker"
 		cta_footer={false}
-		help={[{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'material-symbols:help-outline',title:'Outlook SNDS'}]}
+		help_title="External"
+		help={[{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'material-symbols:help-outline',title:'Outlook SNDS',external:true}]}
 		Services={[{url:'/history',icon:'material-symbols:book-ribbon-outline-rounded',title:'History'},{url:'/ips',icon:'mdi:lan',title:'Ips'},{url:'/rbls',icon:'ic:round-list-alt',title:'Rbls'}]}
 			
 		/>

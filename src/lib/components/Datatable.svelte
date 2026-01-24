@@ -72,29 +72,19 @@
 											{#if onEditClick && EditRedirect}
 												<button
 													class="btn btn-circle btn-text btn-sm"
-													aria-label="Action button"
+													aria-label="Edit"
 													onclick={() => onEditClick(row[0])}
-												>
-													<a
-														href={typeof EditRedirect === 'function'
-															? EditRedirect(row[0])
-															: EditRedirect != null
-																? String(EditRedirect)
-																: undefined}
-														aria-label="Edit"><span class="icon-[tabler--pencil] size-5"></span></a
-													>
-												</button>
+												><span class="icon-[tabler--pencil] size-5"></span></button>
 											{:else}
-												<button class="btn btn-circle btn-text btn-sm" aria-label="Action button">
-													<a
-														href={typeof EditRedirect === 'function'
-															? EditRedirect(row[0])
-															: EditRedirect != null
-																? String(EditRedirect)
-																: undefined}
-														aria-label="Edit"><span class="icon-[tabler--pencil] size-5"></span></a
-													>
-												</button>
+												<a
+													href={typeof EditRedirect === 'function'
+														? EditRedirect(row[0])
+														: EditRedirect != null
+															? String(EditRedirect)
+															: undefined}
+													class="btn btn-circle btn-text btn-sm"
+													aria-label="Edit"><span class="icon-[tabler--pencil] size-5"></span></a
+												>
 											{/if}
 										{/if}
 										{#if onDeleteClick}
@@ -103,7 +93,7 @@
 												aria-label="Action button"
 												onclick={() => onDeleteClick(row[0])}
 											>
-												<a href="#"><span class="icon-[tabler--trash] size-5"></span></a>
+												<span class="icon-[tabler--trash] size-5"></span>
 											</button>
 										{/if}
 									</td>

@@ -1,9 +1,10 @@
 <script lang="ts">
 import Icon from '@iconify/svelte'
 type SideItems = {
-        url:string,
-        icon:string,
-        title:string
+    url:string,
+    icon:string,
+    title:string,
+    external?:boolean
 }
 
 type Sidebar={
@@ -71,6 +72,7 @@ let {name_company,logo_company,name_user,Home,Services,Domains,Footer,service_ti
                                 <a
                                     href={link.url}
                                     class="inline-flex w-full items-center px-2"
+                                    target={link?.external ? "_blank" : "_self"}
                                 >
                                     <span class=""><Icon height={24} icon={link.icon}/></span>
                                     <span>{link.title}</span>
@@ -87,6 +89,7 @@ let {name_company,logo_company,name_user,Home,Services,Domains,Footer,service_ti
 							<a
 								href={link.url}
 								class="inline-flex w-full items-center px-2"
+                                target={link?.external ? "_blank" : "_self"}
 							>
                                 <span class=""><Icon height={24} icon={link.icon}/></span>
                                 <span>{link.title}</span>

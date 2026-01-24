@@ -95,6 +95,11 @@
 
 					<!-- Actions -->
 					<div class="flex justify-end gap-3 border-t border-base-200 pt-6">
+						<a href="/rbls"
+							class="btn btn-danger px-10"
+						>
+							Cancel
+						</a>
 						<button
 							type="submit"
 							class="btn btn-primary px-10"
