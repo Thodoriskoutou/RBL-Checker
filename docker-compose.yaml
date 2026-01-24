@@ -1,37 +1,48 @@
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     name: rbl-checker
     depends_on:
       - dnsmasq
     dns:
-      - 172.28.1.253
+      - 172.16.31.254
     environment:
-      - PB_URL=https://yourpb.domain.com
-      - PB_USER=admin@domain.com
-      - PB_PASS=YOUR_SUPER_STRONG_PASS
-      - WEBHOOK_URL=https://yourn8n.domain.com
+      PB_URL: ${PB_URL:?}
+      PB_USER: ${PB_USER:?}
+      PB_PASS: ${PB_PASS:?}
+      WEBHOOK_URL: ${WEBHOOK_URL}
 
   dnsmasq:
-    image: andyshinn/dnsmasq:2.80
-    command: -k --log-facility=- --log-queries
+    image: 4km3/dnsmasq:latest
+    command: ["-S", "--log-facility=-"]
     cap_add:
       - NET_ADMIN
     networks:
       default:
-        ipv4_address: 172.28.1.253 # don't change this
+        ipv4_address: 172.16.31.254
     dns:
       - 1.1.1.1
       - 8.8.8.8
-  
-  scheduler:
-    image: mcuadros/ofelia:latest
-    depends_on:
-      - app
-    command: daemon --docker
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      ofelia.job-local.check.schedule: "*/30 * * * *"
-      ofelia.job-local.check.container: "rbl-checker"
-      ofelia.job-local.check.command: "bun /app/checker.ts"
+
+#  uncomment to enable cron via ofelia
+#  scheduler:
+#    image: mcuadros/ofelia:latest
+#    depends_on:
+#      - app
+#    command: daemon --docker
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#    labels:
+#      ofelia.job-local.check.schedule: "*/30 * * * *"
+#      ofelia.job-local.check.container: "rbl-checker"
+#      ofelia.job-local.check.command: "bun /app/checker.ts"
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.31.0/24
