@@ -3,7 +3,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    name: rbl-checker
     depends_on:
       - dnsmasq
     dns:
