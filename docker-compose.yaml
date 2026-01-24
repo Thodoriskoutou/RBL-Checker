@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - dnsmasq
+    networks:
+      default:
+        ipv4_address: 172.16.31.250
     dns:
       - 172.16.31.254
     environment:
