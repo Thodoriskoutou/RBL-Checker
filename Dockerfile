@@ -12,4 +12,4 @@ EXPOSE 3000
 
 ENV NODE_ENV=production
 
-ENTRYPOINT ["bun","/app/build/index.ts"]
+ENTRYPOINT ["bun","/app/build/index.js"]

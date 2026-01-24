@@ -15,7 +15,6 @@ services:
 
   dnsmasq:
     image: 4km3/dnsmasq:latest
-    command: ["-S", "--log-facility=-"]
     cap_add:
       - NET_ADMIN
     networks:
