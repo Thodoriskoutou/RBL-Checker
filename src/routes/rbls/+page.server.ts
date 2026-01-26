@@ -1,10 +1,10 @@
-import type { LayoutServerLoad } from './$types'
+import type { PageServerLoad } from './$types'
 import { error } from '@sveltejs/kit'
 import pb from '$lib/pb'
 import type { ClientResponseError } from 'pocketbase'
 import { postValidation } from '$lib/helper'
 
-export const load:LayoutServerLoad  = async () => {
+export const load:PageServerLoad  = async () => {
     try {
         const data = await pb.collection('rbls').getList(1, 50, {
 		    fields: 'id,name,domain,disabled,delist',

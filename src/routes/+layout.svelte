@@ -61,8 +61,9 @@
 		name_company='RBL Checker'
 		logo_company="RBL Checker"
 		cta_footer={false}
-		help={[{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'material-symbols:help-outline',title:'Outlook SNDS'}]}
-		Services={[{url:'/history',icon:'material-symbols:book-ribbon-outline-rounded',title:'History'},{url:'/ips',icon:'mdi:lan',title:'Ips'},{url:'/rbls',icon:'ic:round-list-alt',title:'Rbls'}]}
+		help_title="External"
+		help={[{url:'https://postmaster.google.com/v2/u/1/sender_compliance?domain=',icon:'material-icon-theme:google',title:'Google Postmaster',external:true},{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'vscode-icons:file-type-outlook',title:'Outlook SNDS',external:true}]}
+		Services={[{url:'/ips',icon:'mdi:lan',title:'IPs'},{url:'/rbls',icon:'ic:round-list-alt',title:'RBLs',},{url:'/history',icon:'material-symbols:book-ribbon-outline-rounded',title:'History'}]}
 			
 		/>
 	<!-- ---------- MAIN CONTENT ---------- -->

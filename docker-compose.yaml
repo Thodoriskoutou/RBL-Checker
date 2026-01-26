@@ -1,0 +1,50 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - dnsmasq
+    networks:
+      default:
+        ipv4_address: 172.16.31.250
+    dns:
+      - 172.16.31.254
+    environment:
+      PB_URL: https://mypb.domain.com
+      PB_USER: admin@domain.com
+      PB_PASS: MY_SUPER_STRONG_PASS
+#      WEBHOOK_URL: https://myn8n.domain.com
+
+  dnsmasq:
+    image: 4km3/dnsmasq:latest
+    cap_add:
+      - NET_ADMIN
+    networks:
+      default:
+        ipv4_address: 172.16.31.254
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+  scheduler:
+    image: mcuadros/ofelia:latest
+    depends_on:
+      - app
+    command: daemon --docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    labels:
+      ofelia.job-local.check.schedule: "*/30 * * * *"
+      ofelia.job-local.check.container: "rbl-checker"
+      ofelia.job-local.check.command: "bun /app/checker.ts"
+
+# TODO add pocketbase and caddy
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.31.0/24

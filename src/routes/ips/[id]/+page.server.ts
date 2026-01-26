@@ -5,9 +5,6 @@ import type { ClientResponseError } from 'pocketbase'
 import { resolve4, resolve6 } from 'node:dns/promises';
 import { isIP } from 'node:net';
 
-
-
-
 export const load: PageServerLoad = async ({ params }) => {
     try {
         const recordId = params.id
@@ -38,30 +35,30 @@ export const actions = {
             return fail(400, { ip, missing: true })
         }
 
-        let isValid = isIP(ip) !== 0
+        if (isIP(ip) > 0) {
+            const ipv4list = await resolve4(ip);
+            const ipv6list = await resolve6(ip);
 
-        if (!isValid) {
+            if (!ipv4list.length && !ipv6list.length) {
+                return fail(400, { ip, invalid: true })
+            }
+            const batch = pb.createBatch();
+            for (const resolvedIP of [...ipv4list, ...ipv6list]) {
+                batch.collection('ips').create({ip: resolvedIP, notes});
+            }
             try {
-                await Promise.any([resolve4(ip), resolve6(ip)])
-                isValid = true
-            } catch (e) {
-                isValid = false
+                await batch.send();
+            } catch (err) {
+                error(500, `Failed to add IPs: ${(err as ClientResponseError).message}`)
+            }
+        } else {
+            try {
+                await pb.collection('ips').create({ip, notes})
+            } catch (err) {
+                error(500, `Failed to add IP: ${(err as ClientResponseError).message}`)
             }
         }
 
-        if (!isValid) {
-            return fail(400, { ip, invalid: true })
-        }
-
-        const record = {
-            "ip": ip,
-            "notes": notes
-        }
-        try {
-            await pb.collection('ips').create(record)
-        } catch (err) {
-            error(500, `Failed to create ips: ${(err as ClientResponseError).message}`)
-        }
         return { success: true }
     }
 }

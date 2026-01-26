@@ -1,9 +1,10 @@
 <script lang="ts">
 import Icon from '@iconify/svelte'
 type SideItems = {
-        url:string,
-        icon:string,
-        title:string
+    url:string,
+    icon:string,
+    title:string,
+    external?:boolean
 }
 
 type Sidebar={
@@ -62,8 +63,8 @@ let {name_company,logo_company,name_user,Home,Services,Domains,Footer,service_ti
                                 </a>
                             </li>
                         {/each}
-                        <hr class="border-base-content/20 -mx-2 my-1" />
                         {#if service_title}
+                        <hr class="border-base-content/20 -mx-2 my-1" />
 						<li class="menu-title">{service_title}</li>
                         {/if}
                         {#each Services as link}
@@ -71,13 +72,13 @@ let {name_company,logo_company,name_user,Home,Services,Domains,Footer,service_ti
                                 <a
                                     href={link.url}
                                     class="inline-flex w-full items-center px-2"
+                                    target={link?.external ? "_blank" : "_self"}
                                 >
                                     <span class=""><Icon height={24} icon={link.icon}/></span>
                                     <span>{link.title}</span>
                                 </a>
                             </li>
                         {/each}
-                        <hr class="border-base-content/20 -mx-2 my-1" />
                         {#if help_title}
                             <hr class="border-base-content/20 -mx-2 my-1" />
                             <li class="menu-title">{help_title}</li>
@@ -87,6 +88,7 @@ let {name_company,logo_company,name_user,Home,Services,Domains,Footer,service_ti
 							<a
 								href={link.url}
 								class="inline-flex w-full items-center px-2"
+                                target={link?.external ? "_blank" : "_self"}
 							>
                                 <span class=""><Icon height={24} icon={link.icon}/></span>
                                 <span>{link.title}</span>

@@ -1,13 +1,13 @@
-import type { LayoutServerLoad } from './$types'
+import type { PageServerLoad } from './$types'
 import { error } from '@sveltejs/kit'
 import pb from '$lib/pb'
 import type { ClientResponseError } from 'pocketbase'
 import { postValidation } from '$lib/helper'
 
-export const load:LayoutServerLoad  = async () => {
+export const load:PageServerLoad  = async () => {
     try {
         const data = await pb.collection('ips').getList(1,50, {
-            fields: 'id,ip,notes,ptr,status'
+            fields: 'id,ip,notes,ptr,listed'
         })
         const records = data.items.map(({ id , ip , notes, ptr , listed}) => [
             id,

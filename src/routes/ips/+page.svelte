@@ -5,8 +5,10 @@
 	import ModalMany from '$lib/components/ModalMany.svelte';
 	import { showToast } from '$lib/Toast';
 	let { data }: PageProps = $props();
-	let deleteModal = $state(false);
+	let modalOpen = $state(false);
 	let modalIndex: string | number | undefined = $state();
+
+	// TODO: add table link to per-ip history /history?ip=${record.ip}
 </script>
 
 <div class="flex justify-between items-center">
@@ -18,11 +20,11 @@
 
 <Datatable
 	Rows={data.records}
-	headers={['id', 'ip', 'notes', 'ptr', 'listed', 'Actions']}
+	headers={['_', 'ip', 'notes', 'ptr', 'listed', 'Actions']}
 	action={true}
 	onDeleteClick={(recordId) => {
 		modalIndex = recordId;
-		deleteModal = true;
+		modalOpen = true;
 	}}
 	hideEdit={true}
 ></Datatable>
@@ -32,8 +34,8 @@
 	size="lg"
 	Id="deleteModal"
 	title="Delete Row"
-	open={deleteModal}
-	close={() => (deleteModal = false)}
+	open={modalOpen}
+	close={() => (modalOpen = false)}
 	recordId={modalIndex}
 >
 	{#snippet Body(recordId: string | number | undefined)}
@@ -57,7 +59,7 @@
 					class="btn btn-primary"
 					type="submit"
 					onclick={() => {
-						deleteModal = false;
+						modalOpen = false;
 						showToast({
 							type: 'success',
 							message: 'Record Deleted',

@@ -9,10 +9,10 @@
     Rows={data.records}
     headers={[
         "_",
+        "Date",
         "IP",
         "RBL",
-        "Reason",
-        "TTL"
+        "Reason"
     ]}
     >
 </Datatable>
