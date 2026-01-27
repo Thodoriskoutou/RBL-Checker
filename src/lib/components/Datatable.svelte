@@ -1,27 +1,45 @@
 <script lang="ts">
 	import { type Size } from './types';
+	import { goto } from '$app/navigation'
+	import type { data } from 'jquery';
+	
+	function goToPage(p: number) {
+		goto(`?page=${p}`)
+	}
 
 	type Datatable = {
 		page_number?: string;
 		btnSize?: Size;
 		headers: string[];
+		page?: number;
+		total_pages?: number;
 		onEditClick?: (record_id: string | number) => any;
 		onDeleteClick?: (record_id: string | number) => any;
 		Rows: Array<Array<string>>;
 		action?: boolean;
 		EditRedirect?: string | number | ((id: string | number) => string) | undefined;
 		hideEdit?: boolean;
+		from: number;
+		to: number;
+		totalItems: number;
+		per_page: number;
 	};
 
 	let {
 		headers,
 		action = false,
 		page_number = '5',
+		total_pages ,
+		page=1,
 		Rows,
 		onEditClick,
 		onDeleteClick,
 		EditRedirect,
-		hideEdit = false
+		hideEdit = false,
+		from,
+		to,
+		totalItems,
+		per_page
 	}: Datatable = $props();
 
 	const options = {
@@ -108,27 +126,31 @@
 	<div
 		class="border-base-content/25 flex items-center justify-between gap-3 border-t p-3 max-md:flex-wrap max-md:justify-center"
 	>
-		<div class="text-sm text-base-content/80" data-datatable-info="">
+		<div class="text-sm text-base-content/80">
 			Showing
-			<span data-datatable-info-from=""></span>
+			<span >{from}</span>
 			to
-			<span data-datatable-info-to=""></span>
+			<span >{to}</span>
 			of
-			<span data-datatable-info-length=""></span>
+			<span >{totalItems}</span>
 			records
 		</div>
-		<div class="flex hidden items-center space-x-1" data-datatable-paging="">
-			<button type="button" class="btn btn-text btn-circle btn-sm" data-datatable-paging-prev="">
-				<span aria-hidden="true">«</span>
-				<span class="sr-only">Previous</span>
+		<div class="flex justify-center gap-2 mt-4">
+			<button
+				type="button" class="btn btn-text btn-circle btn-sm"
+				disabled={page === 1}
+				onclick={() => goToPage(page- 1)}>
+					<span aria-hidden="true">«</span>
+					<span class="sr-only">Previous</span>
 			</button>
-			<div
-				class="flex items-center space-x-1 [&>.active]:text-bg-soft-primary"
-				data-datatable-paging-pages=""
-			></div>
-			<button type="button" class="btn btn-text btn-circle btn-sm" data-datatable-paging-next="">
-				<span class="sr-only">Next</span>
-				<span aria-hidden="true">»</span>
+	
+		<div class="flex items-center space-x-1 [&>.active]:text-bg-soft-primary">
+			{page}/{total_pages}
+		</div>
+			<button type="button" class="btn btn-text btn-circle btn-sm" disabled={page === total_pages}
+			onclick={() => goToPage(page + 1)}>
+					<span class="sr-only">Next</span>
+					<span aria-hidden="true">»</span>
 			</button>
 		</div>
 	</div>

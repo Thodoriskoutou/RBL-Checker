@@ -3,10 +3,11 @@ import { error } from '@sveltejs/kit'
 import pb from '$lib/pb'
 import type { ClientResponseError } from 'pocketbase'
 import { postValidation } from '$lib/helper'
-
-export const load:PageServerLoad  = async () => {
+const PER_PAGE=15
+export const load:PageServerLoad  = async ({url}) => {
+    const page = Number(url.searchParams.get('page') ?? 1)
     try {
-        const data = await pb.collection('rbls').getList(1, 50, {
+        const data = await pb.collection('rbls').getList(page, PER_PAGE, {
 		    fields: 'id,name,domain,disabled,delist',
 	    })
 
@@ -18,8 +19,21 @@ export const load:PageServerLoad  = async () => {
             delist 
 
     ])
+    const totalItems = data.totalItems
+    const from =
+			totalItems === 0 ? 0 : (page - 1) * data.perPage + 1
+
+		const to =
+			totalItems === 0 ? 0 : Math.min(page * data.perPage, totalItems)
+
 	return {
-        records
+        records,
+        page: data.page,
+			perPage: data.perPage,
+			totalPages: data.totalPages,
+			totalItems: data.totalItems,
+            from,
+            to
 	}
 
     } catch (err) {

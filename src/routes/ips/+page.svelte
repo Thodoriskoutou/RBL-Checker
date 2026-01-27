@@ -27,6 +27,13 @@
 		modalOpen = true;
 	}}
 	hideEdit={true}
+	page={data.page}
+    total_pages={data.totalPages}
+    page_number="10"
+	from={data.from}
+	to={data.to}
+	totalItems={data.totalItems}
+	per_page={data.perPage}
 ></Datatable>
 
 <ModalMany
