@@ -63,7 +63,7 @@
 		cta_footer={false}
 		help_title="External"
 		help={[{url:'https://postmaster.google.com/v2/u/1/sender_compliance?domain=',icon:'material-icon-theme:google',title:'Google Postmaster',external:true},{url:'https://sendersupport.olc.protection.outlook.com/snds/index',icon:'vscode-icons:file-type-outlook',title:'Outlook SNDS',external:true}]}
-		Services={[{url:'/ips',icon:'mdi:lan',title:'IPs'},{url:'/rbls',icon:'ic:round-list-alt',title:'RBLs',},{url:'/history',icon:'material-symbols:book-ribbon-outline-rounded',title:'History'}]}
+		Services={[{url:'/dashboard',icon:'ion:md-stats',title:'Dashboard'},{url:'/ips',icon:'mdi:lan',title:'IPs'},{url:'/rbls',icon:'ic:round-list-alt',title:'RBLs',},{url:'/history',icon:'material-symbols:book-ribbon-outline-rounded',title:'History'}]}
 			
 		/>
 	<!-- ---------- MAIN CONTENT ---------- -->

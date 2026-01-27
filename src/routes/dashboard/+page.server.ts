@@ -6,26 +6,20 @@ import type { ClientResponseError } from 'pocketbase'
 
 export const load:PageServerLoad  = async () => {
     try {
-        const domains = await pb.collection('domains').getList(1, 50, {
-		    fields: 'id,name,verified',
-		    expand: 'handler'
-	    })
-
-
-	const handlers = await pb.collection('handlers').getFullList({
-		fields: 'id,name'
+	const history = await pb.collection('history').getList(1, 50, {
+		fields: 'created'
 	})
 
 
-	const forms = await pb.collection('forms').getList(1, 50, {
-		fields: 'id,name,handler,expand.handler.name',
-		expand: 'domain'
-	})
+	const ips = await pb.collection('ips').getFullList({})
+
+
+	const rbls = await pb.collection('rbls').getList(1, 50, {})
 
 	return {
-		domains,
-		handlers,
-		forms
+		history,
+		ips,
+		rbls
 	}
 
     } catch (err) {
