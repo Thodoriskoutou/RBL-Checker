@@ -17,30 +17,28 @@ services:
       WEBHOOK_URL: ${WEBHOOK_URL}
     labels:
       traefik.http.middlewares.rblchecker-auth.basicauth.users: "spinworks:$2y$05$NO1sfOJzjTeV.S4qDtalZ.5JfYHMpm3.W.d7gRq0kJ.Pndpe2h37."
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "--tries=1", "--timeout=5", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   dnsmasq:
-    image: 4km3/dnsmasq:latest
+    image: klutchell/unbound
     cap_add:
       - NET_ADMIN
     networks:
       default:
         ipv4_address: 172.16.31.254
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
-
-#  uncomment to enable cron via ofelia
-#  scheduler:
-#    image: mcuadros/ofelia:latest
-#    depends_on:
-#      - app
-#    command: daemon --docker
-#    volumes:
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#    labels:
-#      ofelia.job-local.check.schedule: "*/30 * * * *"
-#      ofelia.job-local.check.container: "rbl-checker"
-#      ofelia.job-local.check.command: "bun /app/checker.ts"
+    healthcheck:
+      test: ['CMD', 'drill-hc', '@127.0.0.1', 'dnssec.works']
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./unbound.conf:/etc/unbound/custom.conf.d/dnsbl.conf
 
 networks:
   default:

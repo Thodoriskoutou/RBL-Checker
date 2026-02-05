@@ -15,23 +15,40 @@ services:
       PB_USER: admin@domain.com
       PB_PASS: MY_SUPER_STRONG_PASS
 #      WEBHOOK_URL: https://myn8n.domain.com
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "--quiet", "--tries=1", "--timeout=5", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
   dnsmasq:
-    image: 4km3/dnsmasq:latest
+    image: klutchell/unbound
     cap_add:
       - NET_ADMIN
     networks:
       default:
         ipv4_address: 172.16.31.254
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
+    healthcheck:
+      test: ['CMD', 'drill-hc', '@127.0.0.1', 'dnssec.works']
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+    volumes:
+      - ./unbound.conf:/etc/unbound/custom.conf.d/dnsbl.conf
 
   scheduler:
     image: mcuadros/ofelia:latest
     depends_on:
       - app
     command: daemon --docker
+    healthcheck:
+      test: ['CMD', '/healthcheck.sh']
+      interval: 1m
+      timeout: 2s
+      retries: 3
+      start_period: 30s
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
