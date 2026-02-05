@@ -37,6 +37,7 @@ services:
       start_period: 30s
     volumes:
       - ./unbound.conf:/etc/unbound/custom.conf.d/dnsbl.conf
+      - ./root.hints:/etc/unbound/root.hints
 
   scheduler:
     image: mcuadros/ofelia:latest
