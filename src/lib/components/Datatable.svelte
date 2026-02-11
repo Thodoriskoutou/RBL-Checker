@@ -15,6 +15,7 @@
 		total_pages?: number;
 		onEditClick?: (record_id: string | number) => any;
 		onDeleteClick?: (record_id: string | number) => any;
+		onShowListingsClick?: (record_id: string | number) => any;
 		Rows: Array<Array<string>>;
 		action?: boolean;
 		EditRedirect?: string | number | ((id: string | number) => string) | undefined;
@@ -34,6 +35,7 @@
 		Rows,
 		onEditClick,
 		onDeleteClick,
+		onShowListingsClick,
 		EditRedirect,
 		hideEdit = false,
 		from,
@@ -46,7 +48,15 @@
 		pageLength: 50,
 		pagingOptions: {
 			pageBtnClasses: 'btn btn-text btn-circle btn-sm'
+		},
+		selecting:true,
+		rowSelectingOptions:{
+			selectAllSelector:"#table-search-all"
+		},
+		language:{
+			zeroRecords: "<div class=\"py-10 px-5 flex flex-col justify-center items-center text-center\"><span class=\"icon-[tabler--search] shrink-0 size-6 text-base-content\"></span><div class=\"max-w-sm mx-auto\"><p class=\"mt-2 text-sm text-base-content/80\">No search results</p></div></div>"
 		}
+		
 	};
 	const showId = $derived(headers[0] !== '_');
 </script>
@@ -55,12 +65,22 @@
 	class="bg-base-100 flex flex-col rounded-md shadow-base-300/20 shadow-sm"
 	data-datatable={JSON.stringify(options)}
 >
+	<div class="py-3 ps-5 border-b border-base-content/25">
+		<div class="input input-sm max-w-60">
+		<span class="icon-[tabler--search] text-base-content/80 my-auto me-3 size-4 shrink-0"></span>
+		<label class="sr-only" for="table-input-search"></label>
+		<input type="search" class="grow" placeholder="Search for items" id="table-input-search" data-datatable-search="" />
+		
+	</div>
+	</div>
 	<div class="overflow-x-auto">
 		<div class="inline-block min-w-full align-middle">
 			<div class="overflow-hidden">
+						
 				<table class="table min-w-full">
 					<thead>
 						<tr class="text-center">
+						
 							{#each headers as header, i}
 								{#if (i === 0 && showId) || i > 0}
 									<th scope="col" class="group text-center">
@@ -108,10 +128,19 @@
 										{#if onDeleteClick}
 											<button
 												class="btn btn-circle btn-text btn-sm"
-												aria-label="Action button"
+												aria-label="Delete"
 												onclick={() => onDeleteClick(row[0])}
 											>
 												<span class="icon-[tabler--trash] size-5"></span>
+											</button>
+										{/if}
+										
+											{#if onShowListingsClick}
+												<button
+													class="btn btn-circle btn-text btn-sm"
+													aria-label="Show Listings"
+													onclick={() => onShowListingsClick(row[1])}
+												><span class="icon-[tabler--list] size-5"></span>
 											</button>
 										{/if}
 									</td>

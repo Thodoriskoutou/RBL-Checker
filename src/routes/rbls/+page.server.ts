@@ -6,17 +6,30 @@ import { postValidation } from '$lib/helper'
 const PER_PAGE=15
 export const load:PageServerLoad  = async ({url}) => {
     const page = Number(url.searchParams.get('page') ?? 1)
+    const status=url.searchParams.get('status') ?? 'all'
     try {
+        let filter = ''
+
+		if (status === 'enabled') {
+			filter = 'disabled = false'
+		}
+
+		if (status === 'disabled') {
+			filter = 'disabled = true'
+		}
+
         const data = await pb.collection('rbls').getList(page, PER_PAGE, {
-		    fields: 'id,name,domain,disabled,delist',
+		    fields: 'id,name,domain,disabled,delist,can_ignore',
+            filter
 	    })
 
-    const records = data.items.map(({ id, name, domain , disabled, delist }) => [
+    const records = data.items.map(({ id, name, domain , disabled, delist, can_ignore }) => [
             id,
             name,
             domain,
             disabled ? '✅' : '❌',
-            delist 
+            delist,
+            can_ignore ? '✅' : '❌'
 
     ])
     const totalItems = data.totalItems
@@ -28,6 +41,7 @@ export const load:PageServerLoad  = async ({url}) => {
 
 	return {
         records,
+        status,
         page: data.page,
 			perPage: data.perPage,
 			totalPages: data.totalPages,
