@@ -30,6 +30,7 @@ for (const ip of ips) {
             });
         }
     }
+    const listed = [];
     for (const rbl of rbls) {
         const result = await lookup(ip.ip, rbl.domain, {includeTxt: true, servers: null});
         if(result.listed != ip.listed) {
@@ -37,17 +38,7 @@ for (const ip of ips) {
                 listed: result.listed
             });
             if(result.listed && Bun.env.WEBHOOK_URL) {
-                await fetch(Bun.env.WEBHOOK_URL, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        ip,
-                        rbl,
-                        result
-                    })
-                });
+                listed.push({rbl, result});
             }
         }
         if(result.listed) {
@@ -57,5 +48,17 @@ for (const ip of ips) {
                 reason: result.txt.join("\n")
             });
         }
+    }
+    if(listed.length && Bun.env.WEBHOOK_URL) {
+        await fetch(Bun.env.WEBHOOK_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ip,
+                listed
+            })
+        });
     }
 }
