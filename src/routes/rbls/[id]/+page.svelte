@@ -91,6 +91,22 @@
 								type="checkbox"
 							/>
 						</div>
+						<div
+							class="flex items-center justify-between rounded-xl border border-base-200 bg-base-200/40 px-6 py-4"
+						>
+							<div>
+								<p class="font-medium">Can Ignore</p>
+								<p class="text-sm text-base-content/60">Allow this record to be ignored</p>
+							</div>
+
+							<Switch
+								labels={['Can Ignore', null]}
+								name="disabled"
+								checked={record.disabled}
+								value="on"
+								type="checkbox"
+							/>
+						</div>
 					</section>
 
 					<!-- Actions -->

@@ -4,6 +4,73 @@
     let { data }: PageProps = $props();
 </script>
 
+<div class="flex justify-between items-center mb-4">
+	<div class="flex gap-2">
+		<a
+			href="?can_ignore=all"
+			class="btn"
+			class:btn-primary={!data.canIgnore}
+		>
+			All
+		</a>
+
+		<a
+			href="?can_ignore=yes"
+			class="btn"
+			class:btn-primary={data.canIgnore === 'yes'}
+		>
+			RBL Ignore
+		</a>
+
+		<a
+			href="?can_ignore=no"
+			class="btn"
+			class:btn-primary={data.canIgnore === 'no'}
+		>
+			RBL Not Ignore
+		</a>
+        
+	</div>
+
+	<form method="GET" class="flex items-center gap-2">
+
+		<input
+            type="text"
+            name="ip"
+            placeholder="Search by IP"
+            value={data.ip}
+            class="input input-bordered"
+        />
+        
+		<input type="hidden" name="can_ignore" value={data.canIgnore} />
+
+		<input
+			type="date"
+			name="date_from"
+			value={data.dateFrom}
+			class="input input-bordered"
+		/>
+
+		<input
+			type="date"
+			name="date_to"
+			value={data.dateTo}
+			class="input input-bordered"
+		/>
+
+		<button type="submit" class="btn btn-primary">
+			Filter
+		</button>
+
+		<a href="?" class="btn btn-ghost">
+			Clear
+		</a>
+
+	</form>
+
+</div>
+
+
 
 <Datatable
     Rows={data.records}
@@ -12,6 +79,7 @@
         "Date",
         "IP",
         "RBL",
+        "RBL IGNORE",
         "Reason"
     ]}
     page={data.page}

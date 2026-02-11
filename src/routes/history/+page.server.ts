@@ -6,11 +6,38 @@ import type { ClientResponseError} from 'pocketbase'
 const PER_PAGE=15
 export const load:PageServerLoad  = async ({ url }) => {
     const ip = url.searchParams.get('ip');
+    const canIgnore = url.searchParams.get('can_ignore')
+    const dateFrom = url.searchParams.get('date_from')
+	const dateTo = url.searchParams.get('date_to')
     const page = Number(url.searchParams.get('page') ?? 1)
     // TODO pagination ?
     try {
+        const filters: string[] = []
+
+		if (ip) {
+			filters.push(`ip.ip="${ip}"`)
+		}
+
+		if (canIgnore === 'yes') {
+			filters.push(`rbl.can_ignore = true`)
+            } 
+        else if (canIgnore === 'no') {
+            filters.push(`rbl.can_ignore = false`);
+        
+		}
+
+
+        if (dateFrom) {
+			filters.push(`created >= "${dateFrom} 00:00:00"`)
+		}
+		if (dateTo) {
+			filters.push(`created <= "${dateTo} 23:59:59"`)
+		}
+        // const filter = filters.length > 0 ? filters.join(' && ') : undefined;
+		
+
         const data = await pb.collection('history').getList(page, PER_PAGE, {
-			fields: 'id,created,expand.ip.ip,expand.rbl.name,reason',
+			fields: 'id,created,expand.ip.ip,expand.rbl.name,expand.rbl.can_ignore,reason',
 			expand: 'ip,rbl',
 			filter: ip ? `ip.ip="${ip}"` : undefined
         })
@@ -19,6 +46,7 @@ export const load:PageServerLoad  = async ({ url }) => {
             created.split('.')[0],
             expand?.ip.ip,
             expand?.rbl.name,
+            expand?.rbl.can_ignore?'✅' : '❌',
             reason
         ])
         const totalItems = data.totalItems
@@ -29,6 +57,10 @@ export const load:PageServerLoad  = async ({ url }) => {
 			totalItems === 0 ? 0 : Math.min(page * data.perPage, totalItems)
         return {
             records,
+            ip,
+            dateFrom,
+            dateTo,
+            canIgnore,
             page: data.page,
 			perPage: data.perPage,
 			totalPages: data.totalPages,

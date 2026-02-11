@@ -4,7 +4,11 @@
 	import Datatable from '$lib/components/Datatable.svelte';
 	import ModalMany from '$lib/components/ModalMany.svelte';
 	import { showToast } from '$lib/Toast';
+	import { goto } from '$app/navigation';
+	import Input from '$lib/components/Input.svelte';
+	
 	let { data }: PageProps = $props();
+	let search = data.search ?? '';
 	let modalOpen = $state(false);
 	let modalIndex: string | number | undefined = $state();
 
@@ -22,6 +26,7 @@
 	Rows={data.records}
 	headers={['_', 'ip', 'notes', 'ptr', 'listed', 'Actions']}
 	action={true}
+	onShowListingsClick={(ip) => goto(`/history?ip=${ip}`)}
 	onDeleteClick={(recordId) => {
 		modalIndex = recordId;
 		modalOpen = true;
