@@ -23,7 +23,6 @@ export const load:PageServerLoad  = async ({ url }) => {
             } 
         else if (canIgnore === 'no') {
             filters.push(`rbl.can_ignore = false`);
-        
 		}
 
 
@@ -33,20 +32,18 @@ export const load:PageServerLoad  = async ({ url }) => {
 		if (dateTo) {
 			filters.push(`created <= "${dateTo} 23:59:59"`)
 		}
-        // const filter = filters.length > 0 ? filters.join(' && ') : undefined;
-		
 
         const data = await pb.collection('history').getList(page, PER_PAGE, {
 			fields: 'id,created,expand.ip.ip,expand.rbl.name,expand.rbl.can_ignore,reason',
 			expand: 'ip,rbl',
-			filter: ip ? `ip.ip="${ip}"` : undefined
+			filter: filters.length ? filters.join(" && ") : undefined
         })
         const records = data.items.map(({ id,created,expand,reason }) => [
             id,
             created.split('.')[0],
             expand?.ip.ip,
             expand?.rbl.name,
-            expand?.rbl.can_ignore?'✅' : '❌',
+            expand?.rbl.can_ignore ? '✅' : '❌',
             reason
         ])
         const totalItems = data.totalItems

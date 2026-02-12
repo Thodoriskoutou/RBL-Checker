@@ -19,7 +19,7 @@
 			class="btn"
 			class:btn-primary={data.canIgnore === 'yes'}
 		>
-			RBL Ignore
+			Ignorable RBL
 		</a>
 
 		<a
@@ -27,7 +27,7 @@
 			class="btn"
 			class:btn-primary={data.canIgnore === 'no'}
 		>
-			RBL Not Ignore
+			Non Ignorable RBL
 		</a>
         
 	</div>
@@ -79,7 +79,7 @@
         "Date",
         "IP",
         "RBL",
-        "RBL IGNORE",
+        "Can Ignore",
         "Reason"
     ]}
     page={data.page}
