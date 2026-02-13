@@ -5,26 +5,20 @@
 	import ModalMany from '$lib/components/ModalMany.svelte';
 	import { showToast } from '$lib/Toast';
 	import { goto } from '$app/navigation';
-	import Input from '$lib/components/Input.svelte';
 	
 	let { data }: PageProps = $props();
-	let search = data.search ?? '';
 	let modalOpen = $state(false);
 	let modalIndex: string | number | undefined = $state();
-
-	// TODO: add table link to per-ip history /history?ip=${record.ip}
 </script>
 
 <div class="flex justify-between items-center">
 	<h1 class="text-base-content text-4xl m-4 ml-0 flex">IPS</h1>
-	<a href={data.activeMenu!.link + '/new'} title="Add a new IP" class="btn btn-primary btn-circle"
-		>+</a
-	>
+	<a href={data.activeMenu!.link + '/new'} title="Add a new IP" class="btn btn-primary btn-circle">+</a>
 </div>
 
 <Datatable
 	Rows={data.records}
-	headers={['_', 'ip', 'notes', 'ptr', 'listed', 'Actions']}
+	headers={['_', 'IP', 'Notes', 'PTR', 'Listed', 'Actions']}
 	action={true}
 	onShowListingsClick={(ip) => goto(`/history?ip=${ip}`)}
 	onDeleteClick={(recordId) => {

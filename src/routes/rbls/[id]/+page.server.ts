@@ -4,7 +4,6 @@ import pb from '$lib/pb'
 import type { ClientResponseError } from 'pocketbase'
 import { postValidation } from '$lib/helper'
 
-
 export const load:PageServerLoad = async ({ params }) => {
     try {
         const recordId = params.id
@@ -14,6 +13,7 @@ export const load:PageServerLoad = async ({ params }) => {
                     id: "",
                     domain: "",
                     disabled: false,
+                    can_ignore: false,
                     delist: "",
                     name:"",
                 }

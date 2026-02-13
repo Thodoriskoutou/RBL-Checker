@@ -30,24 +30,15 @@ for (const ip of ips) {
             });
         }
     }
+    const webhookData = [];
     for (const rbl of rbls) {
         const result = await lookup(ip.ip, rbl.domain, {includeTxt: true, servers: null});
         if(result.listed != ip.listed) {
             await pb.collection('ips').update(ip.id, {
                 listed: result.listed
             });
-            if(result.listed && Bun.env.WEBHOOK_URL) {
-                await fetch(Bun.env.WEBHOOK_URL, {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        ip,
-                        rbl,
-                        result
-                    })
-                });
+            if(result.listed && Bun.env.WEBHOOK_URL && !rbl.can_ignore) {
+                webhookData.push({rbl: rbl.name, reason: result.txt.join("\n")});
             }
         }
         if(result.listed) {
@@ -57,5 +48,18 @@ for (const ip of ips) {
                 reason: result.txt.join("\n")
             });
         }
+    }
+    if(webhookData.length && Bun.env.WEBHOOK_URL) {
+        await fetch(Bun.env.WEBHOOK_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ip,
+                timestamp: new Date().toISOString(),
+                data: webhookData
+            })
+        });
     }
 }

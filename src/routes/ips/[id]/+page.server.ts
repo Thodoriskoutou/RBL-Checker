@@ -1,29 +1,8 @@
-import type { PageServerLoad } from './$types'
 import { error, fail } from '@sveltejs/kit'
 import pb from '$lib/pb'
 import type { ClientResponseError } from 'pocketbase'
 import { resolve4, resolve6 } from 'node:dns/promises';
 import { isIP } from 'node:net';
-
-export const load: PageServerLoad = async ({ params }) => {
-    try {
-        const recordId = params.id
-        if (recordId === "new") {
-            return {
-                record: {
-                    ip: "",
-                    notes: ""
-                }
-            }
-        }
-        const record = await pb.collection('ips').getOne(`${recordId}`)
-        return {
-            record
-        }
-    } catch (err) {
-        error(500, `Failed to fetch data from Pocketbase: ${(err as ClientResponseError).message}`)
-    }
-}
 
 export const actions = {
     create: async ({ request }) => {

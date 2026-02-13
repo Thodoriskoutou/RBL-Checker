@@ -7,8 +7,6 @@
 	let { data }: PageProps = $props();
 	let modalOpen = $state(false);
 	let modalIndex: string | number | undefined = $state();
-
-
 </script>
 
 <div class="flex justify-between items-center">
@@ -31,7 +29,7 @@
 		class="btn"
 		class:btn-primary={data.status === 'enabled'}
 	>
-		Disabled
+		Enabled
 	</a>
 
 	<a
@@ -39,12 +37,12 @@
 		class="btn"
 		class:btn-primary={data.status === 'disabled'}
 	>
-		Enabled
+		Disabled
 	</a>
 </div>
 <Datatable
 	Rows={data.records}
-	headers={['_', 'name', 'domain', 'disabled', 'delist','can_ignore',	 'Actions']}
+	headers={['_', 'Name', 'Domain', 'Disabled', 'Delist URL','Can Ignore',	'Actions']}
 	action={true}
 	onDeleteClick={(recordId) => {
 		modalIndex = recordId;
@@ -58,7 +56,7 @@
     to={data.to}
     totalItems={data.totalItems}
     per_page={data.perPage}	
-></Datatable>
+/>
 
 <ModalMany
 	position="middle"

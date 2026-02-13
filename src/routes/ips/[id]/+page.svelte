@@ -1,12 +1,8 @@
 <script lang="ts">
-	import type { PageProps } from './$types';
 	import { enhance, applyAction } from '$app/forms';
-	import Datatable from '$lib/components/Datatable.svelte';
-	import ModalMany from '$lib/components/ModalMany.svelte';
 	import { showToast } from '$lib/Toast';
 	import Input from '$lib/components/Input.svelte';
 	import { goto } from '$app/navigation';
-	let { data }: PageProps = $props();
 </script>
 
 <form
@@ -24,8 +20,8 @@
 	}}
 >
 	<div class="flex gap-4">
-		<Input labels={['Please enter ip', null, null, null]} name="ip" minlength={3} required />
-		<Input labels={['Please enter notes', null, null, null]} name="notes" minlength={3} required />
+		<Input labels={['Please enter ip', null, null, null]} name="ip" minlength={7} required />
+		<Input labels={['Please enter notes', null, null, null]} name="notes" />
 	</div>
 	<div class="modal-footer">
 		<button
@@ -40,7 +36,8 @@
 					positionX: 'right',
 					positionY: 'top'
 				});
-			}}>Submit</button
-		>
+			}}>
+			Submit
+		</button>
 	</div>
 </form>
