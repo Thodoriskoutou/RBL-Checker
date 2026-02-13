@@ -118,7 +118,7 @@ $effect(() => {
 				</div>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-base-200/30 rounded-xl border border-base-300">
 					<div class="flex items-center justify-between">
-						<span class="text-sm font-medium text-base-content/70">Average per IP</span>
+						<span class="text-sm font-medium text-base-content/70">Average per date</span>
 						<span class="text-2xl font-bold text-primary">{average}</span>
 					</div>
 					<div class="flex items-center justify-between">

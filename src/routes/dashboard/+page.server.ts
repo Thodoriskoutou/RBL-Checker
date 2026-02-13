@@ -26,20 +26,29 @@ export const load:PageServerLoad  = async () => {
 
 	const activeRbls = rbls.items.filter((rbl: any) => rbl.disabled === false).length
 
-	const ipStats: { [key: string]: { count: number; listed: boolean } } = {}
-	history.forEach((record: any) => {
-		if (record.ip) {
-			if (!ipStats[record.ip]) {
-				ipStats[record.ip] = { count: 0, listed: false }
-			}
-			ipStats[record.ip].count++
+	// Build a lookup from IP record id -> address, and address -> listed status
+	const ipsById: { [id: string]: string } = {}
+	const listedByAddress: { [address: string]: boolean } = {}
+	ips.forEach((ip: any) => {
+		// pocketbase ip record likely has fields `id` and `ip` (address)
+		if (ip.id && ip.ip) {
+			ipsById[ip.id] = ip.ip
+			listedByAddress[ip.ip] = ip.listed === true
 		}
 	})
-	
-	ips.forEach((ip: any) => {
-		if (ipStats[ip.ip]) {
-			ipStats[ip.ip].listed = ip.listed === true
+
+	// Build stats keyed by actual IP address (not by record id)
+	const ipStats: { [key: string]: { count: number; listed: boolean } } = {}
+	history.forEach((record: any) => {
+		if (!record.ip) return
+
+		// record.ip may be an id referencing `ips` collection, or an IP string
+		const address = ipsById[record.ip] ?? String(record.ip)
+
+		if (!ipStats[address]) {
+			ipStats[address] = { count: 0, listed: listedByAddress[address] ?? false }
 		}
+		ipStats[address].count++
 	})
 
 	return {
