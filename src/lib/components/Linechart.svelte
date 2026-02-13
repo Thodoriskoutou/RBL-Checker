@@ -60,7 +60,8 @@
 				text: Title,
 				align: 'center',
 				style: {
-					color: 'oklch(var(--bc))'
+					color:'var(--color-base-content)',
+					fontSize: '20px'
 				}
 			},
 			legend: {
