@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type Size } from './types';
 	import { goto } from '$app/navigation'
-	import type { data } from 'jquery';
+	// import type { data } from 'jquery';
 	
 	function goToPage(p: number) {
 		goto(`?page=${p}`)
@@ -44,35 +44,35 @@
 		per_page
 	}: Datatable = $props();
 
-	const options = {
-		pageLength: 50,
-		pagingOptions: {
-			pageBtnClasses: 'btn btn-text btn-circle btn-sm'
-		},
-		selecting:true,
-		rowSelectingOptions:{
-			selectAllSelector:"#table-search-all"
-		},
-		language:{
-			zeroRecords: "<div class=\"py-10 px-5 flex flex-col justify-center items-center text-center\"><span class=\"icon-[tabler--search] shrink-0 size-6 text-base-content\"></span><div class=\"max-w-sm mx-auto\"><p class=\"mt-2 text-sm text-base-content/80\">No search results</p></div></div>"
-		}
+	// const options = {
+	// 	pageLength: 50,
+	// 	pagingOptions: {
+	// 		pageBtnClasses: 'btn btn-text btn-circle btn-sm'
+	// 	},
+	// 	selecting:true,
+	// 	rowSelectingOptions:{
+	// 		selectAllSelector:"#table-search-all"
+	// 	},
+	// 	language:{
+	// 		zeroRecords: "<div class=\"py-10 px-5 flex flex-col justify-center items-center text-center\"><span class=\"icon-[tabler--search] shrink-0 size-6 text-base-content\"></span><div class=\"max-w-sm mx-auto\"><p class=\"mt-2 text-sm text-base-content/80\">No search results</p></div></div>"
+	// 	}
 		
-	};
+	// };
 	const showId = $derived(headers[0] !== '_');
 </script>
 
 <div
 	class="bg-base-100 flex flex-col rounded-md shadow-base-300/20 shadow-sm"
-	data-datatable={JSON.stringify(options)}
+	
 >
-	<div class="py-3 ps-5 border-b border-base-content/25">
+	<!-- <div class="py-3 ps-5 border-b border-base-content/25">
 		<div class="input input-sm max-w-60">
 		<span class="icon-[tabler--search] text-base-content/80 my-auto me-3 size-4 shrink-0"></span>
 		<label class="sr-only" for="table-input-search"></label>
 		<input type="search" class="grow" placeholder="Search for items" id="table-input-search" data-datatable-search="" />
 		
 	</div>
-	</div>
+	</div> -->
 	<div class="overflow-x-auto">
 		<div class="inline-block min-w-full align-middle">
 			<div class="overflow-hidden">

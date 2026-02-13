@@ -41,7 +41,13 @@
             value={data.ip}
             class="input input-bordered"
         />
-        
+        <input
+			type="text"
+			name="rbl"
+			placeholder="Search by RBL name"
+			value={data.rbl}
+			class="input input-bordered"
+		/>
 		<input type="hidden" name="can_ignore" value={data.canIgnore} />
 
 		<input
