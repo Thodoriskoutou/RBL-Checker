@@ -40,6 +40,29 @@
 		Disabled
 	</a>
 </div>
+<form method="GET" class="mb-4 flex gap-2 items-center">
+	<input
+		type="hidden"
+		name="status"
+		value={data.status}
+	/>
+
+	<input
+		type="text"
+		name="search"
+		placeholder="Search by name"
+		value={data.search}
+		class="input input-bordered w-72"
+	/>
+
+	<button type="submit" class="btn btn-primary">
+		Search
+	</button>
+
+	<a href="?status={data.status}" class="btn btn-ghost">
+		Clear
+	</a>
+</form>
 <Datatable
 	Rows={data.records}
 	headers={['_', 'Name', 'Domain', 'Disabled', 'Delist URL','Can Ignore',	'Actions']}

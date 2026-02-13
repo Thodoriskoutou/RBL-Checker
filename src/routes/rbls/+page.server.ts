@@ -4,55 +4,69 @@ import pb from '$lib/pb'
 import type { ClientResponseError } from 'pocketbase'
 import { postValidation } from '$lib/helper'
 const PER_PAGE=15
-export const load:PageServerLoad  = async ({url}) => {
-    const page = Number(url.searchParams.get('page') ?? 1)
-    const status=url.searchParams.get('status') ?? 'all'
-    try {
-        let filter = ''
+export const load: PageServerLoad = async ({ url }) => {
+	const page = Number(url.searchParams.get('page') ?? 1)
+	const status = url.searchParams.get('status') ?? 'all'
+	const search = url.searchParams.get('search')?.trim() ?? ''
 
+	try {
+		const filters: string[] = []
+
+		// Status filter
 		if (status === 'enabled') {
-			filter = 'disabled = false'
+			filters.push('disabled = false')
 		}
 
 		if (status === 'disabled') {
-			filter = 'disabled = true'
+			filters.push('disabled = true')
 		}
 
-        const data = await pb.collection('rbls').getList(page, PER_PAGE, {
-		    fields: 'id,name,domain,disabled,delist,can_ignore',
-            filter
-	    })
+		// Search by name
+		if (search) {
+			const safeSearch = search.replace(/"/g, '\\"')
+			filters.push(`name ~ "${safeSearch}"`)
+		}
 
-    const records = data.items.map(({ id, name, domain , disabled, delist, can_ignore }) => [
-            id,
-            name,
-            domain,
-            disabled ? '✅' : '❌',
-            delist,
-            can_ignore ? '✅' : '❌'
+		const filter = filters.length ? filters.join(' && ') : ''
 
-    ])
-    const totalItems = data.totalItems
-    const from =
-			totalItems === 0 ? 0 : (page - 1) * data.perPage + 1
+		const data = await pb.collection('rbls').getList(page, PER_PAGE, {
+			fields: 'id,name,domain,disabled,delist,can_ignore',
+			filter
+		})
 
+		const records = data.items.map(
+			({ id, name, domain, disabled, delist, can_ignore }) => [
+				id,
+				name,
+				domain,
+				disabled ? '✅' : '❌',
+				delist,
+				can_ignore ? '✅' : '❌'
+			]
+		)
+
+		const totalItems = data.totalItems
+		const from = totalItems === 0 ? 0 : (page - 1) * data.perPage + 1
 		const to =
 			totalItems === 0 ? 0 : Math.min(page * data.perPage, totalItems)
 
-	return {
-        records,
-        status,
-        page: data.page,
+		return {
+			records,
+			status,
+			search,
+			page: data.page,
 			perPage: data.perPage,
 			totalPages: data.totalPages,
 			totalItems: data.totalItems,
-            from,
-            to
+			from,
+			to
+		}
+	} catch (err) {
+		error(
+			500,
+			`Failed to fetch rbls from Pocketbase: ${(err as ClientResponseError).message}`
+		)
 	}
-
-    } catch (err) {
-        error(500, `Failed to fetch rbls from Pocketbase: ${(err as ClientResponseError).message}`)
-    }
 }
 
 export const actions = {

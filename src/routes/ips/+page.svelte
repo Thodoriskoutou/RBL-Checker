@@ -16,6 +16,23 @@
 	<a href={data.activeMenu!.link + '/new'} title="Add a new IP" class="btn btn-primary btn-circle">+</a>
 </div>
 
+<form method="GET" class="mb-4 flex gap-2">
+	<input
+		type="text"
+		name="search"
+		placeholder="Search by IP / Notes / PTR"
+		value={data.search}
+		class="input input-bordered w-80"
+	/>
+
+	<button type="submit" class="btn btn-primary">
+		Search
+	</button>
+
+	<a href="?" class="btn btn-ghost">
+		Clear
+	</a>
+</form>
 <Datatable
 	Rows={data.records}
 	headers={['_', 'IP', 'Notes', 'PTR', 'Listed', 'Actions']}
